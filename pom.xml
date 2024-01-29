@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>ebayer</artifactId>
+	<artifactId>ebuyer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ebayer</name>
 	<description>eBay client</description>
