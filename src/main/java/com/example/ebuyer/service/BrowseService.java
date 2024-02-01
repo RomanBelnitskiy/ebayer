@@ -15,7 +15,11 @@ public class BrowseService {
     public SearchPagedCollection find() throws ApiException {
         RequestParams params = RequestParams
                 .builder()
-                .q("ram")
+                .q("memory DDR3 Sodimm 8gb")
+                .categoryIds("170083")
+                .aspectFilter("categoryId:170083,Brand:{Samsung|Hynix|Kingston}")
+                .filter("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[..15],priceCurrency:USD")
+                .sort("newlyListed")
                 .limit("10")
                 .X_EBAY_C_MARKETPLACE_ID("EBAY_US")
                 .build();

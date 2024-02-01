@@ -13,7 +13,7 @@ public class ClientConfig {
     @Bean
     public ApiClient apiClient() {
         ApiClient client = new ApiClient();
-        client.setBasePath("https://api.sandbox.ebay.com/buy/browse/v1");
+        client.setBasePath("https://api.ebay.com/buy/browse/v1");
         client.setAccessToken(accessToken);
         return client;
     }
