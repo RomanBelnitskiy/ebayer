@@ -1,5 +1,6 @@
 package com.example.ebuyer.client.api;
 
+import com.example.ebuyer.client.model.RequestParams;
 import com.google.gson.reflect.TypeToken;
 import com.example.ebuyer.client.*;
 import com.example.ebuyer.client.model.SearchByImageRequest;
@@ -158,6 +159,25 @@ public class ItemSummaryApi {
     public SearchPagedCollection search(String aspectFilter, String autoCorrect, String categoryIds, String charityIds, String compatibilityFilter, String epid, String fieldgroups, String filter, String gtin, String limit, String offset, String q, String sort, String X_EBAY_C_ENDUSERCTX, String X_EBAY_C_MARKETPLACE_ID) throws ApiException {
         ApiResponse<SearchPagedCollection> resp = searchWithHttpInfo(aspectFilter, autoCorrect, categoryIds, charityIds, compatibilityFilter, epid, fieldgroups, filter, gtin, limit, offset, q, sort, X_EBAY_C_ENDUSERCTX, X_EBAY_C_MARKETPLACE_ID);
         return resp.getData();
+    }
+
+    public SearchPagedCollection search(RequestParams params) throws ApiException {
+        return search(
+                params.getAspectFilter(),
+                params.getAutoCorrect(),
+                params.getCategoryIds(),
+                params.getCharityIds(),
+                params.getCompatibilityFilter(),
+                params.getEpid(),
+                params.getFieldgroups(),
+                params.getFilter(),
+                params.getGtin(),
+                params.getLimit(),
+                params.getOffset(),
+                params.getQ(),
+                params.getSort(),
+                params.getX_EBAY_C_ENDUSERCTX(),
+                params.getX_EBAY_C_MARKETPLACE_ID());
     }
 
     /**
