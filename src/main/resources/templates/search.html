@@ -6,29 +6,91 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
 <div class="container mb-5">
-    <form action="/search" method="get" class="d-flex flex-column align-items-center">
-        <div class="mb-3">
-            <label for="searchQuery" class="form-label">Search Query</label>
-            <input type="text" class="form-control" id="searchQuery" name="q" placeholder="Enter search query">
-        </div>
-        <div class="mb-3">
-            <label for="categoryIds" class="form-label">Category IDs</label>
-            <input type="text" class="form-control" id="categoryIds" name="categoryIds" placeholder="Enter category IDs">
-        </div>
-        <div class="mb-3">
-            <label for="filter" class="form-label">Filter</label>
-            <input type="text" class="form-control" id="filter" name="filter" placeholder="Enter filter">
+    <form action="/search" method="post" class="col col-7 d-flex flex-column my-3 mx-auto ">
+        <div class="row justify-content-start">
+            <div class="col-6">
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="searchQuery"  class="col-form-label">Search Query</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="searchQuery" class="form-control" name="q" placeholder="Enter search query" th:value="${defaultParams.q}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="categoryIds"  class="col-form-label">Category IDs</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="categoryIds" class="form-control" name="categoryIds" placeholder="Enter category IDs" th:value="${defaultParams.categoryIds}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="aspectFilter"  class="col-form-label">Aspect Filter</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="aspectFilter" class="form-control" name="aspectFilter" placeholder="Enter aspect filter" th:value="${defaultParams.aspectFilter}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="filter"  class="col-form-label">Filter</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter" th:value="${defaultParams.filter}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="sort" class="col-form-label">Sorting</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="sort" class="form-control" name="sort" placeholder="Enter sorting criteria" th:value="${defaultParams.sort}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="limit"  class="col-form-label">Limit</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="limit" class="form-control" name="limit" placeholder="Enter limit" th:value="${defaultParams.limit}">
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-outline-primary align-self-center">Search</button>
     </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<div class="container" th:if="${results != null}">
+    <div class="row row-cols-md-4 g-1">
+        <div class="col mb-4" th:each="item : ${results.itemSummaries}">
+            <div class="card h-100" style="width: 20rem;">
+                <img th:src="${item.image.imageUrl}" class="card-img-top img-thumbnail rounded" alt="Item image">
+                <div class="card-body text-center d-flex flex-column align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title" th:text="${item.title}">Card title</h5>
+                        <h4 class="card-title" th:text="${item.price.value + ' ' + item.price.currency}">Price</h4>
+                    </div>
+                    <a th:href="${item.itemWebUrl}" class="btn btn-outline-primary">Browse</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
