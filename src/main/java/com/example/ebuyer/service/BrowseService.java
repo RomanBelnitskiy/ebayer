@@ -21,7 +21,18 @@ public class BrowseService {
                 .filter("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[75..150],priceCurrency:USD")
                 .sort("newlyListed")
                 .limit("100")
-                .X_EBAY_C_MARKETPLACE_ID("EBAY_US")
+                .build();
+
+        return api.search(params);
+    }
+
+    public SearchPagedCollection getAspectAndCategoryRefinements() throws ApiException {
+        RequestParams params = RequestParams
+                .builder()
+                .q("memory")
+                .limit("10")
+                .categoryIds("170083")
+                .fieldgroups("ASPECT_REFINEMENTS,CATEGORY_REFINEMENTS")
                 .build();
 
         return api.search(params);

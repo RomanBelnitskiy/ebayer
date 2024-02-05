@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/find")
+@RequestMapping("/api/v1")
 public class BrowseController {
     @Autowired
     private BrowseService service;
 
-    @GetMapping
+    @GetMapping("/find")
     public ResponseEntity<SearchPagedCollection> find() throws ApiException {
         return ResponseEntity.ok(service.find());
+    }
+
+    @GetMapping("/refinements")
+    public ResponseEntity<SearchPagedCollection> getRefinements() throws ApiException {
+        return ResponseEntity.ok(service.getAspectAndCategoryRefinements());
     }
 }

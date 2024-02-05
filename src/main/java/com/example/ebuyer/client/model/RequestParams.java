@@ -24,5 +24,6 @@ public class RequestParams {
     private String aspectFilter;
     private String epid;
     private String X_EBAY_C_ENDUSERCTX;
-    private String X_EBAY_C_MARKETPLACE_ID;
+    @Builder.Default
+    private String X_EBAY_C_MARKETPLACE_ID = "EBAY_US";
 }
