@@ -12,7 +12,7 @@ import lombok.*;
 public class ItemForSearch {
     @Id
     @Column(name = "item_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "item_type")
     private String type;
