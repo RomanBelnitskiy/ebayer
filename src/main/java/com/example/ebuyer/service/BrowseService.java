@@ -12,17 +12,7 @@ public class BrowseService {
     @Autowired
     private ItemSummaryApi api;
 
-    public SearchPagedCollection find() throws ApiException {
-        RequestParams params = RequestParams
-                .builder()
-                .q("memory")
-                .categoryIds("170083")
-                .aspectFilter("categoryId:170083,Brand:{Samsung|Hynix},Form Factor:{SO-DIMM},Capacity per Module:{4 GB|8 GB|16 GB}")
-                .filter("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[75..150],priceCurrency:USD")
-                .sort("newlyListed")
-                .limit("100")
-                .build();
-
+    public SearchPagedCollection find(RequestParams params) throws ApiException {
         return api.search(params);
     }
 
