@@ -12,7 +12,7 @@
 
 <body>
 <div class="container mb-5">
-    <form action="/search" method="post" class="col col-7 d-flex flex-column my-3 mx-auto ">
+    <form action="/search" method="get" class="col col-7 d-flex flex-column my-3 mx-auto ">
         <div class="row justify-content-start">
             <div class="col-6">
                 <div class="row g-3 align-items-center mb-2">
@@ -20,7 +20,7 @@
                         <label for="searchQuery"  class="col-form-label">Search Query</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="searchQuery" class="form-control" name="q" placeholder="Enter search query" th:value="${defaultParams.q}">
+                        <input type="text" id="searchQuery" class="form-control" name="q" placeholder="Enter search query" th:value="${requestParams.q}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -28,7 +28,7 @@
                         <label for="categoryIds"  class="col-form-label">Category IDs</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="categoryIds" class="form-control" name="categoryIds" placeholder="Enter category IDs" th:value="${defaultParams.categoryIds}">
+                        <input type="text" id="categoryIds" class="form-control" name="categoryIds" placeholder="Enter category IDs" th:value="${requestParams.categoryIds}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -36,7 +36,7 @@
                         <label for="aspectFilter"  class="col-form-label">Aspect Filter</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="aspectFilter" class="form-control" name="aspectFilter" placeholder="Enter aspect filter" th:value="${defaultParams.aspectFilter}">
+                        <input type="text" id="aspectFilter" class="form-control" name="aspectFilter" placeholder="Enter aspect filter" th:value="${requestParams.aspectFilter}">
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                         <label for="filter"  class="col-form-label">Filter</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter" th:value="${defaultParams.filter}">
+                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter" th:value="${requestParams.filter}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -54,7 +54,7 @@
                         <label for="sort" class="col-form-label">Sorting</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="sort" class="form-control" name="sort" placeholder="Enter sorting criteria" th:value="${defaultParams.sort}">
+                        <input type="text" id="sort" class="form-control" name="sort" placeholder="Enter sorting criteria" th:value="${requestParams.sort}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -62,12 +62,12 @@
                         <label for="limit"  class="col-form-label">Limit</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="limit" class="form-control" name="limit" placeholder="Enter limit" th:value="${defaultParams.limit}">
+                        <input type="text" id="limit" class="form-control" name="limit" placeholder="Enter limit" th:value="${requestParams.limit}">
                     </div>
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="offset" th:value="${requestParams.offset}">
         <button type="submit" class="btn btn-outline-primary align-self-center">Search</button>
     </form>
 </div>
@@ -76,42 +76,31 @@
     <div class="row row-cols-md-4 g-1">
         <div class="col mb-4" th:each="item : ${results.itemSummaries}">
             <div class="card h-100" style="width: 20rem;">
-                <img th:src="${item.image.imageUrl}" class="card-img-top img-thumbnail rounded" alt="Item image">
+                <img th:if="${item.image != null}"
+                     th:src="${item.image.imageUrl}" class="card-img-top img-thumbnail rounded" alt="Item image">
                 <div class="card-body text-center d-flex flex-column align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title" th:text="${item.title}">Card title</h5>
-                        <h4 class="card-title" th:text="${item.price.value + ' ' + item.price.currency}">Price</h4>
+                        <h4 class="card-title" th:if="${item.price != null}"
+                            th:text="${item.price.value + ' ' + item.price.currency}">Price</h4>
                     </div>
                     <a th:href="${item.itemWebUrl}" class="btn btn-outline-primary">Browse</a>
                 </div>
             </div>
         </div>
     </div>
+
     <nav class="d-flex justify-content-center" aria-label="...">
         <ul class="pagination">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">4</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">5</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+            <li th:each="button : ${paginationButtons}" th:class="${button.isActive == false} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:aria-disabled="${button.isActive}"
+                   th:href="@{${button.url}}">
+                    <span th:text="${button.name}"></span>
+                </a>
             </li>
         </ul>
     </nav>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
