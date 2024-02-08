@@ -60,22 +60,24 @@ public class SearchController {
 
             String name = String.valueOf(i);
             boolean isActive = true;
+            boolean isCurrent = false;
 
             if (i == 0) {
                 name = "Previous";
                 pageOffset = currentOffset - currentLimit;
                 isActive = pageOffset >= 0;
-            }
-            if (i == pageCount + 1) {
+            } else if (i == pageCount + 1) {
                 name = "Next";
                 pageOffset = currentOffset + currentLimit;
                 isActive = pageOffset < total;
+            } else {
+                isCurrent = pageOffset == currentOffset;
             }
 
             Map<String, String> requestParamsMap = buildRequestParamsMap(params, pageOffset);
             String encodedURL = encodeRequestParams(requestParamsMap);
 
-            PaginationButton button = new PaginationButton(encodedURL, name, pageOffset, isActive);
+            PaginationButton button = new PaginationButton(encodedURL, name, pageOffset, isActive, isCurrent);
             paginationButtons.add(button);
         }
 

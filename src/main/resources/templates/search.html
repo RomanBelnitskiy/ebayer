@@ -17,36 +17,40 @@
             <div class="col-6">
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="searchQuery"  class="col-form-label">Search Query</label>
+                        <label for="searchQuery" class="col-form-label">Search Query</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="searchQuery" class="form-control" name="q" placeholder="Enter search query" th:value="${requestParams.q}">
+                        <input type="text" id="searchQuery" class="form-control" name="q"
+                               placeholder="Enter search query" th:value="${requestParams.q}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="categoryIds"  class="col-form-label">Category IDs</label>
+                        <label for="categoryIds" class="col-form-label">Category IDs</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="categoryIds" class="form-control" name="categoryIds" placeholder="Enter category IDs" th:value="${requestParams.categoryIds}">
+                        <input type="text" id="categoryIds" class="form-control" name="categoryIds"
+                               placeholder="Enter category IDs" th:value="${requestParams.categoryIds}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="aspectFilter"  class="col-form-label">Aspect Filter</label>
+                        <label for="aspectFilter" class="col-form-label">Aspect Filter</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="aspectFilter" class="form-control" name="aspectFilter" placeholder="Enter aspect filter" th:value="${requestParams.aspectFilter}">
+                        <input type="text" id="aspectFilter" class="form-control" name="aspectFilter"
+                               placeholder="Enter aspect filter" th:value="${requestParams.aspectFilter}">
                     </div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="filter"  class="col-form-label">Filter</label>
+                        <label for="filter" class="col-form-label">Filter</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter" th:value="${requestParams.filter}">
+                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter"
+                               th:value="${requestParams.filter}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -54,15 +58,17 @@
                         <label for="sort" class="col-form-label">Sorting</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="sort" class="form-control" name="sort" placeholder="Enter sorting criteria" th:value="${requestParams.sort}">
+                        <input type="text" id="sort" class="form-control" name="sort"
+                               placeholder="Enter sorting criteria" th:value="${requestParams.sort}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="limit"  class="col-form-label">Limit</label>
+                        <label for="limit" class="col-form-label">Limit</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="limit" class="form-control" name="limit" placeholder="Enter limit" th:value="${requestParams.limit}">
+                        <input type="text" id="limit" class="form-control" name="limit" placeholder="Enter limit"
+                               th:value="${requestParams.limit}">
                     </div>
                 </div>
             </div>
@@ -92,7 +98,8 @@
 
     <nav class="d-flex justify-content-center" aria-label="...">
         <ul class="pagination">
-            <li th:each="button : ${paginationButtons}" th:class="${button.isActive == false} ? 'page-item disabled' : 'page-item'">
+            <li th:each="button : ${paginationButtons}"
+                th:class="${button.isActive == false} ? 'page-item disabled' : (${button.isCurrent} ? 'page-item active' : 'page-item')">
                 <a class="page-link" th:aria-disabled="${button.isActive}"
                    th:href="@{${button.url}}">
                     <span th:text="${button.name}"></span>
