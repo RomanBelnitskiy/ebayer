@@ -12,4 +12,5 @@ public class PaginationButton {
     private String name;
     private int offset;
     private boolean isActive;
+    private boolean isCurrent;
 }
