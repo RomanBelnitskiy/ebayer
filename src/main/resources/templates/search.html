@@ -29,10 +29,13 @@
                         <label for="categoryIds" class="col-form-label">Category IDs</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="categoryIds" class="form-control" name="categoryIds"
-                               placeholder="Enter category IDs" th:value="${requestParams.categoryIds}">
+                        <select id="categoryIds" class="form-control" name="categoryIds">
+                            <option value="170083" selected>Memory (RAM)</option>
+
+                        </select>
                     </div>
                 </div>
+
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
                         <label for="aspectFilter" class="col-form-label">Aspect Filter</label>
