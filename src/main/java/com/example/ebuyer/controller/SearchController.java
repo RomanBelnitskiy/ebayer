@@ -2,7 +2,7 @@ package com.example.ebuyer.controller;
 
 import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.client.model.PaginationButton;
-import com.example.ebuyer.client.model.RequestParams;
+import com.example.ebuyer.client.dto.RequestParamsDto;
 import com.example.ebuyer.client.model.SearchPagedCollection;
 import com.example.ebuyer.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class SearchController {
     private BrowseService service;
 
     @GetMapping
-    public String search(RequestParams params, Model model) throws ApiException {
+    public String search(RequestParamsDto params, Model model) throws ApiException {
         if (params.getQ() == null) {
             params = getDefaultRequestParams();
         } else {
@@ -38,7 +38,7 @@ public class SearchController {
         return "search";
     }
 
-    private void handleSearchRequest(RequestParams params, Model model) throws ApiException {
+    private void handleSearchRequest(RequestParamsDto params, Model model) throws ApiException {
         SearchPagedCollection collection = service.find(params);
         int total = collection.getTotal();
         int pageSize = collection.getLimit();
@@ -50,7 +50,7 @@ public class SearchController {
         model.addAttribute("results", collection);
     }
 
-    private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageSize, int pageCount) {
+    private List<PaginationButton> buildPaginationButtons(RequestParamsDto params, int total, int pageSize, int pageCount) {
         List<PaginationButton> paginationButtons = new ArrayList<>();
         int currentOffset = Integer.parseInt(params.getOffset());
         int currentLimit = Integer.parseInt(params.getLimit());
@@ -84,7 +84,7 @@ public class SearchController {
         return paginationButtons;
     }
 
-    private Map<String, String> buildRequestParamsMap(RequestParams params, int pageOffset) {
+    private Map<String, String> buildRequestParamsMap(RequestParamsDto params, int pageOffset) {
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("q", params.getQ());
         requestParams.put("aspectFilter", params.getAspectFilter());
@@ -112,8 +112,8 @@ public class SearchController {
         return encode;
     }
 
-    private RequestParams getDefaultRequestParams() {
-        return RequestParams
+    private RequestParamsDto getDefaultRequestParams() {
+        return RequestParamsDto
                 .builder()
                 .q("memory Sodimm")
                 .categoryIds("170083")

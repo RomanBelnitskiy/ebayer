@@ -1,7 +1,7 @@
 package com.example.ebuyer.controller;
 
 import com.example.ebuyer.client.ApiException;
-import com.example.ebuyer.client.model.RequestParams;
+import com.example.ebuyer.client.dto.RequestParamsDto;
 import com.example.ebuyer.client.model.SearchPagedCollection;
 import com.example.ebuyer.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class BrowseController {
 
     @GetMapping("/find")
     public ResponseEntity<SearchPagedCollection> find() throws ApiException {
-        RequestParams params = RequestParams
+        RequestParamsDto params = RequestParamsDto
                 .builder()
                 .q("memory Sodimm")
                 .categoryIds("170083")
