@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestParamsDto {
+public class QuerySearchParams {
     private String q;
     private String gtin;
     private String charityIds;

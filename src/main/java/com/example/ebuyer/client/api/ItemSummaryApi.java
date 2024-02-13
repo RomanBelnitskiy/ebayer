@@ -1,6 +1,6 @@
 package com.example.ebuyer.client.api;
 
-import com.example.ebuyer.client.dto.RequestParamsDto;
+import com.example.ebuyer.client.dto.QuerySearchParams;
 import com.google.gson.reflect.TypeToken;
 import com.example.ebuyer.client.*;
 import com.example.ebuyer.client.model.SearchByImageRequest;
@@ -161,7 +161,7 @@ public class ItemSummaryApi {
         return resp.getData();
     }
 
-    public SearchPagedCollection search(RequestParamsDto params) throws ApiException {
+    public SearchPagedCollection search(QuerySearchParams params) throws ApiException {
         return search(
                 params.getAspectFilter(),
                 params.getAutoCorrect(),

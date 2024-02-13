@@ -2,7 +2,7 @@ package com.example.ebuyer.service;
 
 import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.client.api.ItemSummaryApi;
-import com.example.ebuyer.client.dto.RequestParamsDto;
+import com.example.ebuyer.client.dto.QuerySearchParams;
 import com.example.ebuyer.client.model.SearchPagedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ public class BrowseService {
     @Autowired
     private ItemSummaryApi api;
 
-    public SearchPagedCollection find(RequestParamsDto params) throws ApiException {
+    public SearchPagedCollection find(QuerySearchParams params) throws ApiException {
         return api.search(params);
     }
 
     public SearchPagedCollection getAspectAndCategoryRefinements() throws ApiException {
-        RequestParamsDto params = RequestParamsDto
+        QuerySearchParams params = QuerySearchParams
                 .builder()
                 .q("memory")
                 .limit("10")
