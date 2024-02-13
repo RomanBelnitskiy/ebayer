@@ -2,8 +2,9 @@ package com.example.ebuyer.controller;
 
 import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.client.model.PaginationButton;
-import com.example.ebuyer.client.dto.RequestParamsDto;
+import com.example.ebuyer.client.model.RequestParams;
 import com.example.ebuyer.client.model.SearchPagedCollection;
+import com.example.ebuyer.mapper.RequestParamsMapper;
 import com.example.ebuyer.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,11 @@ import static java.util.stream.Collectors.joining;
 public class SearchController {
     @Autowired
     private BrowseService service;
+    @Autowired
+    private RequestParamsMapper mapper;
 
     @GetMapping
-    public String search(RequestParamsDto params, Model model) throws ApiException {
+    public String search(RequestParams params, Model model) throws ApiException {
         if (params.getQ() == null) {
             params = getDefaultRequestParams();
         } else {
@@ -38,8 +41,8 @@ public class SearchController {
         return "search";
     }
 
-    private void handleSearchRequest(RequestParamsDto params, Model model) throws ApiException {
-        SearchPagedCollection collection = service.find(params);
+    private void handleSearchRequest(RequestParams params, Model model) throws ApiException {
+        SearchPagedCollection collection = service.find(mapper.toQuery(params));
         int total = collection.getTotal();
         int pageSize = collection.getLimit();
         int pageCount = (int) Math.ceil((double) total / pageSize);
@@ -50,7 +53,7 @@ public class SearchController {
         model.addAttribute("results", collection);
     }
 
-    private List<PaginationButton> buildPaginationButtons(RequestParamsDto params, int total, int pageSize, int pageCount) {
+    private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageSize, int pageCount) {
         List<PaginationButton> paginationButtons = new ArrayList<>();
         int currentOffset = Integer.parseInt(params.getOffset());
         int currentLimit = Integer.parseInt(params.getLimit());
@@ -84,10 +87,10 @@ public class SearchController {
         return paginationButtons;
     }
 
-    private Map<String, String> buildRequestParamsMap(RequestParamsDto params, int pageOffset) {
+    private Map<String, String> buildRequestParamsMap(RequestParams params, int pageOffset) {
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("q", params.getQ());
-        requestParams.put("aspectFilter", params.getAspectFilter());
+        requestParams.put("brand", params.getBrand());
         requestParams.put("categoryIds", params.getCategoryIds());
         requestParams.put("filter", params.getFilter());
         requestParams.put("sort", params.getSort());
@@ -112,17 +115,16 @@ public class SearchController {
         return encode;
     }
 
-    private RequestParamsDto getDefaultRequestParams() {
-        return RequestParamsDto
+    private RequestParams getDefaultRequestParams() {
+        return RequestParams
                 .builder()
                 .q("memory Sodimm")
                 .categoryIds("170083")
-                .aspectFilter("categoryId:170083,Brand:{Samsung|Hynix|Kingston}")
+                .brand("Samsung, Hynix, Kingston")
                 .filter("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[75..150],priceCurrency:USD")
                 .sort("newlyListed")
                 .limit("100")
                 .offset("0")
-                .X_EBAY_C_MARKETPLACE_ID("EBAY_US")
                 .build();
     }
 }

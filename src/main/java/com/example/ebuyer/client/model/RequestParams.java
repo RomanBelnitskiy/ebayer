@@ -11,19 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestParams {
     private String q;
-    private String gtin;
-    private String charityIds;
-    private String fieldgroups;
-    private String compatibilityFilter;
-    private String autoCorrect;
     private String categoryIds;
     private String filter;
     private String sort;
     private String limit;
     private String offset;
     private String brand;
-    private String epid;
-    private String X_EBAY_C_ENDUSERCTX;
-    @Builder.Default
-    private String X_EBAY_C_MARKETPLACE_ID = "EBAY_US";
 }
