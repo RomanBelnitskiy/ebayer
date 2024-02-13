@@ -21,7 +21,7 @@ public class RequestParams {
     private String sort;
     private String limit;
     private String offset;
-    private String aspectFilter;
+    private String brand;
     private String epid;
     private String X_EBAY_C_ENDUSERCTX;
     @Builder.Default
