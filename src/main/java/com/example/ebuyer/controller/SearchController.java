@@ -92,7 +92,8 @@ public class SearchController {
         requestParams.put("q", params.getQ());
         requestParams.put("brand", params.getBrand());
         requestParams.put("categoryIds", params.getCategoryIds());
-        requestParams.put("filter", params.getFilter());
+        requestParams.put("minPrice", String.valueOf(params.getMinPrice()));
+        requestParams.put("maxPrice", String.valueOf(params.getMaxPrice()));
         requestParams.put("sort", params.getSort());
         requestParams.put("limit", params.getLimit());
         requestParams.put("offset", String.valueOf(pageOffset));
@@ -121,7 +122,8 @@ public class SearchController {
                 .q("memory Sodimm")
                 .categoryIds("170083")
                 .brand("Samsung, Hynix, Kingston")
-                .filter("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[75..150],priceCurrency:USD")
+                .minPrice(55)
+                .maxPrice(145)
                 .sort("newlyListed")
                 .limit("100")
                 .offset("0")

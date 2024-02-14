@@ -12,9 +12,10 @@ import lombok.NoArgsConstructor;
 public class RequestParams {
     private String q;
     private String categoryIds;
-    private String filter;
     private String sort;
     private String limit;
     private String offset;
     private String brand;
+    private int minPrice;
+    private int maxPrice;
 }

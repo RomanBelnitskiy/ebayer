@@ -48,11 +48,21 @@
             <div class="col-6">
                 <div class="row g-3 align-items-center mb-2">
                     <div class="col text-end">
-                        <label for="filter" class="col-form-label">Filter</label>
+                        <label for="minPrice" class="col-form-label">Min Price</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="filter" class="form-control" name="filter" placeholder="Enter filter"
-                               th:value="${requestParams.filter}">
+                        <input type="number" step="1" id="minPrice" class="form-control" name="minPrice"
+                               placeholder="Enter min price" th:value="${requestParams.minPrice}">
+                    </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col text-end">
+                        <label for="maxPrice" class="col-form-label">Max Price</label>
+                    </div>
+                    <div class="col">
+                        <input type="number" step="1" id="maxPrice" class="form-control" name="maxPrice"
+                               placeholder="Enter max price" th:value="${requestParams.maxPrice}">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
