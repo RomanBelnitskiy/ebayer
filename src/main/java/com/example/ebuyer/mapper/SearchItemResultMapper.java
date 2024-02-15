@@ -13,8 +13,7 @@ public class SearchItemResultMapper {
         final double unitPrice = summary.getUnitPrice() != null && summary.getUnitPrice().getValue() != null
                 ? Double.parseDouble(summary.getUnitPrice().getValue()) : 0.0;
         final double sellerFeedback = Double.parseDouble(summary.getSeller().getFeedbackPercentage());
-        final double shippingCost = !summary.getShippingOptions().isEmpty()
-                ? Double.parseDouble(summary.getShippingOptions().get(0).getShippingCost().getValue()) : 0.0;
+        final double shippingCost = getShippingCost(summary);
 
         return SearchItemResult
                 .builder()
@@ -26,8 +25,21 @@ public class SearchItemResultMapper {
                 .unitPrice(unitPrice)
                 .sellerFeedback(sellerFeedback)
                 .shippingCost(shippingCost)
-                .score(0.0)
+                .rank(0.0)
                 .build();
+    }
+
+    private double getShippingCost(ItemSummary summary) {
+        double shippingCost = 0.0;
+        if (summary.getShippingOptions() != null && !summary.getShippingOptions().isEmpty()) {
+            if (summary.getShippingOptions().get(0) != null &&
+                summary.getShippingOptions().get(0).getShippingCost() != null &&
+                    summary.getShippingOptions().get(0).getShippingCost().getValue() != null
+            ) {
+                shippingCost = Double.parseDouble(summary.getShippingOptions().get(0).getShippingCost().getValue());
+            }
+        }
+        return shippingCost;
     }
 
     public List<SearchItemResult> toSearchItemResults(List<ItemSummary> itemSummaries) {

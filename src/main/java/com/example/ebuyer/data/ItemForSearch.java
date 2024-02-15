@@ -15,13 +15,13 @@ public class ItemForSearch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "item_type")
-    private String type;
+    private String standard;
     @Column(name = "item_size")
-    private int size;
+    private int capacity;
     @Column(name = "item_formfactor")
-    private String formFactor;
+    private String type;
     @Column(name = "item_frequency")
-    private String frequency;
+    private String speed;
     @Column(name = "item_model")
     private String model;
     @Column(name = "item_low_price")
