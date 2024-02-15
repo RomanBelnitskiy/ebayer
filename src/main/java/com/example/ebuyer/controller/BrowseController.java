@@ -33,6 +33,11 @@ public class BrowseController {
         return ResponseEntity.ok(service.find(params));
     }
 
+    @GetMapping("/find/suitable")
+    public ResponseEntity<?> findSuitable() throws ApiException {
+        return ResponseEntity.ok(service.findSuitable());
+    }
+
     @GetMapping("/refinements")
     public ResponseEntity<SearchPagedCollection> getRefinements() throws ApiException {
         return ResponseEntity.ok(service.getAspectAndCategoryRefinements());
