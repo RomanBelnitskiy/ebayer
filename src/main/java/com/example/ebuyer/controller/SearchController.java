@@ -122,7 +122,7 @@ public class SearchController {
                 .q("memory Sodimm")
                 .categoryIds("170083")
                 .brand("Samsung, Hynix, Kingston")
-                .minPrice(55)
+                .minPrice(65)
                 .maxPrice(145)
                 .sort("newlyListed")
                 .limit("100")

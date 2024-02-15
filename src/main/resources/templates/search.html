@@ -70,8 +70,11 @@
                         <label for="sort" class="col-form-label">Sorting</label>
                     </div>
                     <div class="col">
-                        <input type="text" id="sort" class="form-control" name="sort"
-                               placeholder="Enter sorting criteria" th:value="${requestParams.sort}">
+                        <select id="sort" class="form-control" name="sort" th:field="${requestParams.sort}">
+                            <option value="newlyListed">Newly listed</option>
+                            <option value="-price">Price (high to low)</option>
+                            <option value="endingSoonest">Ending soonest</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
