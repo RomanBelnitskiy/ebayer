@@ -8,20 +8,25 @@ import java.util.Objects;
 
 @Component
 public class RequestParamsMapper {
-    private static final String FILTER = "buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[75..150],priceCurrency:USD";
     private static final String X_EBAY_C_MARKETPLACE_ID = "EBAY_US";
 
     public QuerySearchParams toQuery(RequestParams requestParams) {
+        String filter = buildFilter(requestParams.getMinPrice(), requestParams.getMaxPrice());
+
         return QuerySearchParams.builder()
                 .q(requestParams.getQ())
                 .categoryIds(requestParams.getCategoryIds())
-                .filter(FILTER)
+                .filter(filter)
                 .sort(requestParams.getSort())
                 .limit(requestParams.getLimit())
                 .offset(requestParams.getOffset())
                 .aspectFilter(getAspectFilter(requestParams.getBrand(), requestParams.getCategoryIds()))
                 .X_EBAY_C_MARKETPLACE_ID(X_EBAY_C_MARKETPLACE_ID)
                 .build();
+    }
+    private String buildFilter(int minPrice, int maxPrice) {
+        return String.format("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[%d..%d],priceCurrency:USD",
+                minPrice, maxPrice);
     }
 
     private String getAspectFilter(String brand, String categoryIds) {
