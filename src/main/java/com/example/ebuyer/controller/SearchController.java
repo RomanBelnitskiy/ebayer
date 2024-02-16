@@ -55,7 +55,7 @@ public class SearchController {
 
     private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageSize, int pageCount) {
         List<PaginationButton> paginationButtons = new ArrayList<>();
-        int currentOffset = Integer.parseInt(params.getOffset());
+        int currentOffset = params.getOffset();
         int currentLimit = params.getLimit();
 
         for (int i = 0; i < pageCount + 2; i++) {
@@ -126,7 +126,7 @@ public class SearchController {
                 .maxPrice(145)
                 .sort("newlyListed")
                 .limit(100)
-                .offset("0")
+                .offset(0)
                 .build();
     }
 }
