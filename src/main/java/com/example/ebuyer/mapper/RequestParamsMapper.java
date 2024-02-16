@@ -18,7 +18,7 @@ public class RequestParamsMapper {
                 .categoryIds(requestParams.getCategoryIds())
                 .filter(filter)
                 .sort(requestParams.getSort())
-                .limit(requestParams.getLimit())
+                .limit(String.valueOf(requestParams.getLimit()))
                 .offset(requestParams.getOffset())
                 .aspectFilter(getAspectFilter(requestParams.getBrand(), requestParams.getCategoryIds()))
                 .X_EBAY_C_MARKETPLACE_ID(X_EBAY_C_MARKETPLACE_ID)
