@@ -13,7 +13,7 @@ public class RequestParams {
     private String q;
     private String categoryIds;
     private String sort;
-    private String limit;
+    private int limit;
     private String offset;
     private String brand;
     private int minPrice;
