@@ -56,7 +56,7 @@ public class SearchController {
     private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageSize, int pageCount) {
         List<PaginationButton> paginationButtons = new ArrayList<>();
         int currentOffset = Integer.parseInt(params.getOffset());
-        int currentLimit = Integer.parseInt(String.valueOf(params.getLimit()));
+        int currentLimit = params.getLimit();
 
         for (int i = 0; i < pageCount + 2; i++) {
             int pageOffset = (i - 1) * pageSize;
