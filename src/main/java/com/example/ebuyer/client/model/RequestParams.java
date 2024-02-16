@@ -23,10 +23,10 @@ public class RequestParams {
     private String sort;
 
     @Min(0)
-    @Max(100)
+    @Max(200)
     private int limit;
 
-    private String offset;
+    private int offset;
 
     @Size(max = 100)
     private String brand;
