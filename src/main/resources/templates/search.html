@@ -21,7 +21,7 @@
                     </div>
                     <div class="col">
                         <input type="text" id="searchQuery" class="form-control" name="q"
-                               placeholder="Enter search query" th:value="${requestParams.q}">
+                               placeholder="Enter search query" th:value="${requestParams.q}" required>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col">
                         <input type="text" id="brand" class="form-control" name="brand"
-                               placeholder="Enter brand" th:value="${requestParams.brand}">
+                               placeholder="Enter brand" th:value="${requestParams.brand}" required>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="col">
                         <input type="number" step="1" id="minPrice" class="form-control" name="minPrice"
-                               placeholder="Enter min price" th:value="${requestParams.minPrice}">
+                               placeholder="Enter min price" th:value="${requestParams.minPrice}" required>
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col">
                         <input type="number" step="1" id="maxPrice" class="form-control" name="maxPrice"
-                               placeholder="Enter max price" th:value="${requestParams.maxPrice}">
+                               placeholder="Enter max price" th:value="${requestParams.maxPrice}" required>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-2">
@@ -70,7 +70,7 @@
                         <label for="sort" class="col-form-label">Sorting</label>
                     </div>
                     <div class="col">
-                        <select id="sort" class="form-control" name="sort" th:field="${requestParams.sort}">
+                        <select id="sort" class="form-control" name="sort" th:field="${requestParams.sort}" required>
                             <option value="newlyListed">Newly listed</option>
                             <option value="-price">Price (high to low)</option>
                             <option value="endingSoonest">Ending soonest</option>
@@ -83,12 +83,12 @@
                     </div>
                     <div class="col">
                         <input type="number" id="limit" class="form-control" name="limit" placeholder="Enter limit"
-                               th:value="${requestParams.limit}">
+                               th:value="${requestParams.limit}" required>
                     </div>
                 </div>
             </div>
         </div>
-        <input type="hidden" name="offset" th:value="${requestParams.offset}">
+        <input type="hidden" name="offset" th:value="${requestParams.offset}" required>
         <button type="submit" class="btn btn-outline-primary align-self-center">Search</button>
     </form>
 </div>

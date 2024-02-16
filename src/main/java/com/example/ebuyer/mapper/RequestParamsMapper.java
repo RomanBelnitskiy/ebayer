@@ -12,9 +12,10 @@ public class RequestParamsMapper {
 
     public QuerySearchParams toQuery(RequestParams requestParams) {
         String filter = buildFilter(requestParams.getMinPrice(), requestParams.getMaxPrice());
+        String q = handleQParameter(requestParams.getQ());
 
         return QuerySearchParams.builder()
-                .q(requestParams.getQ())
+                .q(q)
                 .categoryIds(requestParams.getCategoryIds())
                 .filter(filter)
                 .sort(requestParams.getSort())
@@ -24,6 +25,11 @@ public class RequestParamsMapper {
                 .X_EBAY_C_MARKETPLACE_ID(X_EBAY_C_MARKETPLACE_ID)
                 .build();
     }
+
+    private String handleQParameter(String q) {
+        return q.replaceAll(",", " ");
+    }
+
     private String buildFilter(int minPrice, int maxPrice) {
         return String.format("buyingOptions:{AUCTION|FIXED_PRICE},deliveryCountry:US,price:[%d..%d],priceCurrency:USD",
                 minPrice, maxPrice);
