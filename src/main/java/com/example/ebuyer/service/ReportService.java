@@ -43,86 +43,14 @@ public class ReportService {
                 int startRowNumber = itemNum * 6;
                 SearchItemResult item = resultList.get(itemNum);
 
-                // ================== First row ==================
-                XSSFRow firstRow = sheet.createRow(startRowNumber);
-                // announcement number
-                XSSFCell cellItemNumber = firstRow.createCell(0);
-                cellItemNumber.setCellStyle(headerStyle);
-                cellItemNumber.setCellValue((itemNum + 1) + ".");
-                // title
-                XSSFCell cellTitle = firstRow.createCell(1);
-                cellTitle.setCellStyle(headerStyle);
-                cellTitle.setCellValue(item.getTitle());
-
-                // ================== Second row ==================
-                XSSFRow secondRow = sheet.createRow(startRowNumber + 1);
-                // link
-                XSSFCell webUrlCell = secondRow.createCell(1);
-                webUrlCell.setCellStyle(linkCellStyle);
-                XSSFHyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
-                link.setAddress(item.getItemWebUrl());
-                webUrlCell.setCellValue(toUTF8("Посилання на eBay"));
-                webUrlCell.setHyperlink(link);
-
-                // ================== Third row ==================
-                XSSFRow thirdRow = sheet.createRow(startRowNumber + 2);
-                thirdRow.setRowStyle(commonStyle);
-                // price title
-                XSSFCell priceTileCell= thirdRow.createCell(1);
-                priceTileCell.setCellValue(toUTF8("Ціна"));
-                // price
-                XSSFCell priceCell= thirdRow.createCell(2);
-                priceCell.setCellStyle(valueStyle);
-                priceCell.setCellValue(item.getPrice());
-                // qty title
-                XSSFCell qtyTileCell= thirdRow.createCell(3);
-                qtyTileCell.setCellValue(toUTF8("К-ть"));
-                // qty
-                XSSFCell qtyCell = thirdRow.createCell(4);
-                qtyCell.setCellStyle(valueStyle);
-                qtyCell.setCellValue(item.getQty());
-                // price per unit title
-                XSSFCell unitPriceTileCell = thirdRow.createCell(5);
-                unitPriceTileCell.setCellValue(toUTF8("Ціна за шт.:"));
-                // price per unit
-                XSSFCell unitPriceCell = thirdRow.createCell(6);
-                unitPriceCell.setCellStyle(valueStyle);
-                unitPriceCell.setCellValue(item.getUnitPrice());
-
-                // ================== Fourth row ==================
-                XSSFRow fourthRow = sheet.createRow(startRowNumber + 3);
-                fourthRow.setRowStyle(commonStyle);
-                // seller title
-                XSSFCell sellerTitleCell = fourthRow.createCell(1);
-                sellerTitleCell.setCellValue(toUTF8("Продавець:"));
-                // seller
-                XSSFCell sellerCell = fourthRow.createCell(2);
-                sellerCell.setCellValue(item.getSeller());
-                // seller rate title
-                XSSFCell sellerRateTitleCell = fourthRow.createCell(3);
-                sellerRateTitleCell.setCellValue(toUTF8("Рейтинг:"));
-                // seller rate
-                XSSFCell sellerRateCell = fourthRow.createCell(4);
-                sellerRateCell.setCellValue(item.getSellerFeedback());
-
-                // ================== Fifth row ==================
-                XSSFRow fifthRow = sheet.createRow(startRowNumber + 4);
-                fifthRow.setRowStyle(commonStyle);
-                // shipment cost title
-                XSSFCell shipmentTitleCell = fifthRow.createCell(1);
-                shipmentTitleCell.setCellValue(toUTF8("Доставка:"));
-                // shipment cost
-                XSSFCell shipmentCell = fifthRow.createCell(2);
-                shipmentCell.setCellValue(item.getShippingCost());
+                createFirstRow(sheet, startRowNumber, headerStyle, itemNum, item);
+                createSecondRow(sheet, startRowNumber, linkCellStyle, workbook, item);
+                createThirdRow(sheet, startRowNumber, commonStyle, valueStyle, item);
+                createFourthRow(sheet, startRowNumber, commonStyle, item);
+                createFifthRow(sheet, startRowNumber, commonStyle, item);
             }
 
-            sheet.autoSizeColumn(0);
-            sheet.setColumnWidth(1, 256*12);
-            sheet.autoSizeColumn(2);
-            sheet.autoSizeColumn(3);
-            sheet.autoSizeColumn(4);
-            sheet.autoSizeColumn(5);
-            sheet.autoSizeColumn(6);
+            alignColumns(sheet);
 
             try (FileOutputStream fos = new FileOutputStream("Results.xlsx")) {
                 workbook.write(fos);
@@ -132,6 +60,98 @@ public class ReportService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void createFirstRow(XSSFSheet sheet, int startRowNumber, CellStyle headerStyle, int itemNum, SearchItemResult item) {
+        // ================== First row ==================
+        XSSFRow firstRow = sheet.createRow(startRowNumber);
+        // announcement number
+        XSSFCell cellItemNumber = firstRow.createCell(0);
+        cellItemNumber.setCellStyle(headerStyle);
+        cellItemNumber.setCellValue((itemNum + 1) + ".");
+        // title
+        XSSFCell cellTitle = firstRow.createCell(1);
+        cellTitle.setCellStyle(headerStyle);
+        cellTitle.setCellValue(item.getTitle());
+    }
+
+    private void createSecondRow(XSSFSheet sheet, int startRowNumber, CellStyle linkCellStyle, XSSFWorkbook workbook, SearchItemResult item) {
+        // ================== Second row ==================
+        XSSFRow secondRow = sheet.createRow(startRowNumber + 1);
+        // link
+        XSSFCell webUrlCell = secondRow.createCell(1);
+        webUrlCell.setCellStyle(linkCellStyle);
+        XSSFHyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
+        link.setAddress(item.getItemWebUrl());
+        webUrlCell.setCellValue(toUTF8("Посилання на eBay"));
+        webUrlCell.setHyperlink(link);
+    }
+
+    private void createThirdRow(XSSFSheet sheet, int startRowNumber, CellStyle commonStyle, CellStyle valueStyle, SearchItemResult item) {
+        // ================== Third row ==================
+        XSSFRow thirdRow = sheet.createRow(startRowNumber + 2);
+        thirdRow.setRowStyle(commonStyle);
+        // price title
+        XSSFCell priceTileCell= thirdRow.createCell(1);
+        priceTileCell.setCellValue(toUTF8("Ціна"));
+        // price
+        XSSFCell priceCell= thirdRow.createCell(2);
+        priceCell.setCellStyle(valueStyle);
+        priceCell.setCellValue(item.getPrice());
+        // qty title
+        XSSFCell qtyTileCell= thirdRow.createCell(3);
+        qtyTileCell.setCellValue(toUTF8("К-ть"));
+        // qty
+        XSSFCell qtyCell = thirdRow.createCell(4);
+        qtyCell.setCellStyle(valueStyle);
+        qtyCell.setCellValue(item.getQty());
+        // price per unit title
+        XSSFCell unitPriceTileCell = thirdRow.createCell(5);
+        unitPriceTileCell.setCellValue(toUTF8("Ціна за шт.:"));
+        // price per unit
+        XSSFCell unitPriceCell = thirdRow.createCell(6);
+        unitPriceCell.setCellStyle(valueStyle);
+        unitPriceCell.setCellValue(item.getUnitPrice());
+    }
+
+    private void createFourthRow(XSSFSheet sheet, int startRowNumber, CellStyle commonStyle, SearchItemResult item) {
+        // ================== Fourth row ==================
+        XSSFRow fourthRow = sheet.createRow(startRowNumber + 3);
+        fourthRow.setRowStyle(commonStyle);
+        // seller title
+        XSSFCell sellerTitleCell = fourthRow.createCell(1);
+        sellerTitleCell.setCellValue(toUTF8("Продавець:"));
+        // seller
+        XSSFCell sellerCell = fourthRow.createCell(2);
+        sellerCell.setCellValue(item.getSeller());
+        // seller rate title
+        XSSFCell sellerRateTitleCell = fourthRow.createCell(3);
+        sellerRateTitleCell.setCellValue(toUTF8("Рейтинг:"));
+        // seller rate
+        XSSFCell sellerRateCell = fourthRow.createCell(4);
+        sellerRateCell.setCellValue(item.getSellerFeedback());
+    }
+
+    private void createFifthRow(XSSFSheet sheet, int startRowNumber, CellStyle commonStyle, SearchItemResult item) {
+        // ================== Fifth row ==================
+        XSSFRow fifthRow = sheet.createRow(startRowNumber + 4);
+        fifthRow.setRowStyle(commonStyle);
+        // shipment cost title
+        XSSFCell shipmentTitleCell = fifthRow.createCell(1);
+        shipmentTitleCell.setCellValue(toUTF8("Доставка:"));
+        // shipment cost
+        XSSFCell shipmentCell = fifthRow.createCell(2);
+        shipmentCell.setCellValue(item.getShippingCost());
+    }
+
+    private void alignColumns(XSSFSheet sheet) {
+        sheet.autoSizeColumn(0);
+        sheet.setColumnWidth(1, 256*12);
+        sheet.autoSizeColumn(2);
+        sheet.autoSizeColumn(3);
+        sheet.autoSizeColumn(4);
+        sheet.autoSizeColumn(5);
+        sheet.autoSizeColumn(6);
     }
 
     private Font createFont(XSSFWorkbook workbook, int size, boolean bold) {
