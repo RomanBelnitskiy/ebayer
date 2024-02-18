@@ -3,12 +3,14 @@ package com.example.ebuyer.service;
 import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.data.SearchItemResult;
 import org.apache.poi.common.usermodel.HyperlinkType;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -19,7 +21,7 @@ public class ReportService {
     @Autowired
     private BrowseService browseService;
 
-    public void createExcelReport() throws ApiException {
+    public byte[] createExcelReport() throws ApiException {
 //        List<SearchItemResult> resultList = browseService.findSuitable();
         List<SearchItemResult> resultList = createTestResults();
 
@@ -52,8 +54,9 @@ public class ReportService {
 
             alignColumns(sheet);
 
-            try (FileOutputStream fos = new FileOutputStream("Results.xlsx")) {
-                workbook.write(fos);
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                workbook.write(baos);
+                return baos.toByteArray();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
