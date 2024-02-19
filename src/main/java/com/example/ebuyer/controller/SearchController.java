@@ -58,24 +58,27 @@ public class SearchController {
         int currentOffset = params.getOffset();
         int currentLimit = params.getLimit();
 
-        for (int i = 0; i < pageCount + 2; i++) {
-            int pageOffset = (i - 1) * pageSize;
+        int previousPageOffset = Math.max(0, currentOffset - currentLimit);
+        String previousName = "Previous";
+        boolean previousIsActive = currentOffset > 0;
+        boolean previousIsCurrent = currentOffset == 0;
+        Map<String, String> previousRequestParamsMap = buildRequestParamsMap(params, previousPageOffset);
+        String previousEncodedURL = encodeRequestParams(previousRequestParamsMap);
+        PaginationButton previousButton = new PaginationButton(previousEncodedURL, previousName,
+                previousPageOffset, previousIsActive, previousIsCurrent);
+        paginationButtons.add(previousButton);
+
+        int maxVisibleButtons = 5;
+        int middleButtonIndex = maxVisibleButtons / 2;
+        int startPage = Math.max(1,
+                Math.min(currentOffset / currentLimit - middleButtonIndex + 1, pageCount - maxVisibleButtons + 1));
+        int endPage = Math.min(pageCount, startPage + maxVisibleButtons - 1);
+        for (int i = startPage; i <= endPage; i++) {
+            int pageOffset = (i - 1) * currentLimit;
 
             String name = String.valueOf(i);
             boolean isActive = true;
-            boolean isCurrent = false;
-
-            if (i == 0) {
-                name = "Previous";
-                pageOffset = currentOffset - currentLimit;
-                isActive = pageOffset >= 0;
-            } else if (i == pageCount + 1) {
-                name = "Next";
-                pageOffset = currentOffset + currentLimit;
-                isActive = pageOffset < total;
-            } else {
-                isCurrent = pageOffset == currentOffset;
-            }
+            boolean isCurrent = pageOffset == currentOffset;
 
             Map<String, String> requestParamsMap = buildRequestParamsMap(params, pageOffset);
             String encodedURL = encodeRequestParams(requestParamsMap);
@@ -83,6 +86,16 @@ public class SearchController {
             PaginationButton button = new PaginationButton(encodedURL, name, pageOffset, isActive, isCurrent);
             paginationButtons.add(button);
         }
+
+        int nextPageOffset = Math.min(total, currentOffset + currentLimit);
+        String nextName = "Next";
+        boolean nextIsActive = nextPageOffset < total;
+        boolean nextIsCurrent = currentOffset == total - currentLimit;
+        Map<String, String> nextRequestParamsMap = buildRequestParamsMap(params, nextPageOffset);
+        String nextEncodedURL = encodeRequestParams(nextRequestParamsMap);
+        PaginationButton nextButton = new PaginationButton(nextEncodedURL, nextName, nextPageOffset,
+                nextIsActive, nextIsCurrent);
+        paginationButtons.add(nextButton);
 
         return paginationButtons;
     }
