@@ -47,13 +47,13 @@ public class SearchController {
         int pageSize = collection.getLimit();
         int pageCount = (int) Math.ceil((double) total / pageSize);
 
-        List<PaginationButton> paginationButtons = buildPaginationButtons(params, total, pageSize, pageCount);
+        List<PaginationButton> paginationButtons = buildPaginationButtons(params, total, pageCount);
 
         model.addAttribute("paginationButtons", paginationButtons);
         model.addAttribute("results", collection);
     }
 
-    private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageSize, int pageCount) {
+    private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageCount) {
         List<PaginationButton> paginationButtons = new ArrayList<>();
         int currentOffset = params.getOffset();
         int currentLimit = params.getLimit();
