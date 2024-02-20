@@ -6,6 +6,7 @@ import com.example.ebuyer.client.model.RequestParams;
 import com.example.ebuyer.client.model.SearchPagedCollection;
 import com.example.ebuyer.mapper.RequestParamsMapper;
 import com.example.ebuyer.service.BrowseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.joining;
 
+@Slf4j
 @Controller
 @RequestMapping("/search")
 public class SearchController {
@@ -38,6 +37,12 @@ public class SearchController {
         }
         model.addAttribute("requestParams", params);
 
+        if (model.containsAttribute("results")) {
+            SearchPagedCollection collection = (SearchPagedCollection) model.getAttribute("results");
+            log.info("All items: {}", Objects.requireNonNull(collection).getItemSummaries());
+            log.info("Total items: {}", Objects.requireNonNull(collection).getTotal());
+        }
+
         return "search";
     }
 
@@ -51,6 +56,7 @@ public class SearchController {
 
         model.addAttribute("paginationButtons", paginationButtons);
         model.addAttribute("results", collection);
+        model.addAttribute("totalResults", total);
     }
 
     private List<PaginationButton> buildPaginationButtons(RequestParams params, int total, int pageCount) {

@@ -111,6 +111,12 @@
         </div>
     </div>
 
+    <div class="text-center mb-2">
+        <div class="badge bg-success text-wrap p-1" style="width: 8rem; border-radius: 5px;">
+            <p class="fs-6 fw-normal m-0">Total results: <span th:text="${totalResults}"></span></p>
+        </div>
+    </div>
+
     <nav class="d-flex justify-content-center" aria-label="...">
         <ul class="pagination">
             <li th:each="button : ${paginationButtons}"
