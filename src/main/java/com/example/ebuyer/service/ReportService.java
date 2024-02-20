@@ -1,6 +1,5 @@
 package com.example.ebuyer.service;
 
-import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.data.SearchItemResult;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -21,7 +20,7 @@ public class ReportService {
     @Autowired
     private BrowseService browseService;
 
-    public byte[] createExcelReport() throws ApiException {
+    public byte[] createExcelReport() {
         List<SearchItemResult> resultList = browseService.findSuitable();
 
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {

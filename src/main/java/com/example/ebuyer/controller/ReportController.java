@@ -1,6 +1,5 @@
 package com.example.ebuyer.controller;
 
-import com.example.ebuyer.client.ApiException;
 import com.example.ebuyer.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -15,7 +14,7 @@ public class ReportController {
     private ReportService service;
 
     @GetMapping("/excel")
-    public ResponseEntity<?> getExcelReport() throws ApiException {
+    public ResponseEntity<?> getExcelReport() {
         byte[] excelReport = service.createExcelReport();
         HttpHeaders headers = createHeaders(excelReport.length);
 
